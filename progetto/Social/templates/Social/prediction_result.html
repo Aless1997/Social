@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Risultati della Previsione{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Risultati della Previsione</h2>
+    <img src="data:image/png;base64,{{ image_base64 }}" alt="Grafico delle Previsioni" class="img-fluid">
+    <h3>Previsioni</h3>
+    <ul>
+        {% for prediction in predictions %}
+            <li>{{ prediction }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

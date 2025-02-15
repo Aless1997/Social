@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista delle Aziende</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-brand {
+            font-weight: bold;
+            color: #1877f2;
+        }
+        .navbar-nav .nav-link {
+            color: #65676b;
+            font-weight: 500;
+        }
+        .company-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .company-card:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            color: #65676b;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'homepage' %}">Social per Aziende</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'list_company' %}">Aziende</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'list_post' %}">Post</a></li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Registrati</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1 class="mb-4 text-center">Elenco delle Aziende</h1>
+        <div class="row">
+            {% for company in company %}
+                <div class="col-md-12">
+                    <a href="{% url 'company_detail' company.id %}" class="text-decoration-none text-dark">
+                        <div class="card company-card p-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ company.nome }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Tipologia: {{ company.tipologia.nominativo }}</h6>
+                                <p class="card-text">Target: {{ company.target }}</p>
+                                <p class="card-text">Descrizione: {{ company.descrizione }}</p>
+                                <p class="card-text"><small class="text-muted">Registrazione: {{ company.registrazione }}</small></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <footer class="text-center footer mt-5">
+        <p>© 2025 Social per Aziende</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
